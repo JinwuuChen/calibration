@@ -17,8 +17,8 @@ camera::camera(QWidget *parent) : QMainWindow(parent),
     connect(find_corner_timer,SIGNAL(timeout()),this,SLOT(Time_find_corner_update()));
     connect(calibrate_timer,SIGNAL(timeout()),this,SLOT(Time_calibrate_update()));
     setWindowTitle("相机内参标定");
-  //  setFixedSize(this->width(), this->height());
-    //  connect(ui->ListWidget_imgs,&QListWidget::currentRowChanged,this,&camera::showImg);
+    //setFixedSize(this->width(), this->height());
+    //connect(ui->ListWidget_imgs,&QListWidget::currentRowChanged,this,&camera::showImg);
     this->camneican = make_unique<cam_neican>();
     mbtngroup = new QButtonGroup(this);
     mbtngroup->addButton(ui->radioButton, 0);

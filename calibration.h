@@ -40,9 +40,10 @@ public:
     void changecamerwithlidat();
     void change_lidarwithlidar_clicked();
     void verifer_license();
+    void read_license();
     bool cameramode_flag = 0;
     time_t StringToDataTime(std::string datetime_str);
-
+    std::string license_;
 private:
     Ui::calibration *ui;
 };

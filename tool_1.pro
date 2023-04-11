@@ -488,13 +488,6 @@ LIBS += /usr/local/lib/libpcl_*.so
 #INCLUDEPATH += /usr/local/include/liblas
 #LIBS += /usr/local/lib/liblas*.so
 
-#glog
-INCLUDEPATH += /usr/include/glog
-#g2o
-INCLUDEPATH += /usr/local/include/g2o
-LIBS += /usr/local/lib/libg2o_*.so
 
-#sophus
-INCLUDEPATH +=/usr/local/include/sophus
 # cryptopp
 INCLUDEPATH += tools/cryptopp/include

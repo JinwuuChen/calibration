@@ -33,14 +33,13 @@ calibration::calibration(QWidget *parent) : QMainWindow(parent),
 {
 
     ui->setupUi(this);
-   // this->setStyleSheet("background:white;");
-   // setFixedSize(this->width(), this->height());
+    read_license();
     setWindowTitle("自动驾驶多传感器快速标定软件");
     connect(ui->pushButton_3, &QPushButton::clicked, this, &calibration::changecamera);
     connect(ui->pushButton_7, &QPushButton::clicked, this, &calibration::changeexternal_camera);
     connect(ui->pushButton_8, &QPushButton::clicked, this, &calibration::changecamerwithlidat);
     connect(ui->pushButton_6, &QPushButton::clicked, this, &calibration::change_lidarwithlidar_clicked);
-    connect(ui->pushButton,&QPushButton::clicked,this,&calibration::verifer_license);
+    verifer_license();
 }
 
 calibration::~calibration()
@@ -60,7 +59,7 @@ void calibration::changecamera()
     {
         QWidget *itemw = new QWidget;
         QLabel *wl = new QLabel(itemw);
-        wl->setText("请验证license");
+        wl->setText("license不正确");
         wl->resize(500, 200);
         itemw->show();
         itemw->setWindowTitle("错误");
@@ -79,7 +78,7 @@ void calibration::changeexternal_camera()
     {
         QWidget *itemw = new QWidget;
         QLabel *wl = new QLabel(itemw);
-        wl->setText("请验证license");
+        wl->setText("license不正确");
         wl->resize(500, 200);
         itemw->show();
         itemw->setWindowTitle("错误");
@@ -97,7 +96,7 @@ void calibration::changecamerwithlidat()
     {
         QWidget *itemw = new QWidget;
         QLabel *wl = new QLabel(itemw);
-        wl->setText("请验证license");
+        wl->setText("license不正确");
         wl->resize(500, 200);
         itemw->show();
         itemw->setWindowTitle("错误");
@@ -115,7 +114,7 @@ void calibration::change_lidarwithlidar_clicked()
     {
         QWidget *itemw = new QWidget;
         QLabel *wl = new QLabel(itemw);
-        wl->setText("请验证license");
+        wl->setText("license不正确");
         wl->resize(500, 200);
         itemw->show();
         itemw->setWindowTitle("错误");
@@ -124,10 +123,12 @@ void calibration::change_lidarwithlidar_clicked()
 
 void calibration::verifer_license()
 {
-    QString plain = ui->lineEdit->text();
+    QString plain = QString::fromStdString(license_);
+//    std::string filename = "license.license";
+//    cv::FileStorage ymlFile(filename, cv::FileStorage::WRITE);
+//    ymlFile << "license" << plain.toStdString();
     QString key = "cicv";
     QString result_license=CryptoPPUtil::DecryptString(plain, key);
-   // std::cout<<result_license.toStdString()<<std::endl;
     if(result_license.size()>0)
     {
     time_t tt;
@@ -137,11 +138,6 @@ void calibration::verifer_license()
     time_t sys_time = mktime(t);
     std::string mac_id=result_license.toStdString().substr(0,17);
     std::string time=result_license.toStdString().substr(18,19);
-    std::cout<<mac_id<<std::endl;
-    std::cout<<time<<std::endl;
-    std::cout<<result_license.toStdString().size()<<std::endl;
-    std::cout<<mac_id.size()<<std::endl;
-    std::cout<<time.size()<<std::endl;
     std::list<std::string> mac_seq;
     QList<QNetworkInterface> list=QNetworkInterface::allInterfaces();
     time_t  dead_line_time = StringToDataTime(time);
@@ -154,7 +150,6 @@ void calibration::verifer_license()
     std::list<string>::iterator find_mac_iter=std::find(mac_seq.begin(),mac_seq.end(),mac_id);
     if(find_mac_iter!=mac_seq.end())
     {
-        std::cout<<"mac地址正确"<<std::endl;
         double   diff_times = difftime(dead_line_time, sys_time);
         int iHour = diff_times / 60 / 60;
         int day=iHour/24;
@@ -164,8 +159,6 @@ void calibration::verifer_license()
         QLabel *wl = new QLabel(itemw);
         wl->setText("mac地址正确");
         wl->setWordWrap(true);
-        std::cout<<"iHour"<<iHour<<std::endl;
-        std::cout<<"iMin"<<iMin<<std::endl;
         if(iHour>0||iMin>0)
         {
         wl->setText(wl->text()+"\n"+"剩余时间："+QString::number(day)+"天"+QString::number(int(iHour-day*24))+"小时"+QString::number(iMin)+"分钟");
@@ -173,19 +166,18 @@ void calibration::verifer_license()
         }
         else
         {
-            wl->setText(wl->text()+"\n"+"许可证已过期");
+            wl->setText(wl->text()+"\n"+"许可证已过期，无法使用");
         }
         wl->resize(500, 200);
         itemw->show();
-        itemw->setWindowTitle("错误");
+        itemw->setWindowTitle("提示");
         return;
     }
     else
     {
-        std::cout<<"license错误"<<std::endl;
         QWidget *itemw = new QWidget;
         QLabel *wl = new QLabel(itemw);
-        wl->setText("license与本机mac地址不匹配");
+        wl->setText("license与本机mac地址不匹配，无法使用");
         wl->resize(500, 200);
         itemw->show();
         itemw->setWindowTitle("错误");
@@ -194,7 +186,6 @@ void calibration::verifer_license()
     }
     else
     {
-       std::cout<<"license错误"<<std::endl;
        QWidget *itemw = new QWidget;
        QLabel *wl = new QLabel(itemw);
        wl->setText("license输入错误");
@@ -202,6 +193,16 @@ void calibration::verifer_license()
        itemw->show();
        itemw->setWindowTitle("错误");
        return;
+    }
+}
+
+void calibration::read_license()
+{
+    QString filename = "./license.license";
+    if (!filename.isEmpty())
+    {
+        cv::FileStorage ymlreadFile(filename.toStdString(), cv::FileStorage::READ);
+        ymlreadFile["license"] >> license_;
     }
 }
 

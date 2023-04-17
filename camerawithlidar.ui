@@ -558,13 +558,6 @@
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_18">
-               <property name="text">
-                <string>检验</string>
-               </property>
-              </widget>
-             </item>
             </layout>
            </item>
           </layout>

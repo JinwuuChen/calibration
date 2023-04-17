@@ -6,7 +6,6 @@
 
 QT       += core gui
 QT += network
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 QMAKE_CXXFLAGS += "-mssse3"
 QMAKE_CXXFLAGS += "-msse4.1"
@@ -14,6 +13,7 @@ QMAKE_CXXFLAGS += "-mavx2"
 QMAKE_CXXFLAGS += "-mpclmul"
 QMAKE_CXXFLAGS += "-maes"
 QMAKE_CXXFLAGS += "-msha"
+# 支持OpenMP特性，发挥算法的最大潜能
 LIBS += -lgomp -lpthread
 QMAKE_CXXFLAGS += "-fopenmp"
 TARGET = tool_1
@@ -488,6 +488,12 @@ LIBS += /usr/local/lib/libpcl_*.so
 #INCLUDEPATH += /usr/local/include/liblas
 #LIBS += /usr/local/lib/liblas*.so
 
-
+#glog
+INCLUDEPATH += /usr/include/glog
+#g2o
+INCLUDEPATH += /usr/local/include/g2o
+LIBS += /usr/local/lib/libg2o_*.so
+#sophus
+INCLUDEPATH +=/usr/local/include/sophus
 # cryptopp
 INCLUDEPATH += tools/cryptopp/include

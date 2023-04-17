@@ -21,7 +21,7 @@
 #include <pcl/point_types.h>
 #include <QVector>
 #include <QVector3D>
-
+#include<qdesktopwidget.h>
 #include <memory>
 #include <string>
 #include <opencv2/opencv.hpp>

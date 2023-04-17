@@ -10,6 +10,7 @@
 #include "imagebox.h"
 #include "newcamerproject.h"
 #include "savecamerresult.h"
+#include<qdesktopwidget.h>
 namespace Ui
 {
     class external_camera;

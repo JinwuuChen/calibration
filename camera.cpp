@@ -99,6 +99,8 @@ void camera::startcameraclick()
         wl->setText("请设置棋盘参数");
         wl->resize(500, 200);
         itemw->show();
+        itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
+         itemw->setWindowTitle("错误");
         itemw->setWindowTitle("错误");
         return;
     }
@@ -178,6 +180,7 @@ void camera::onitemclicked(QListWidgetItem *item)
         wl->setText("请先执行检测，再查看结果图");
         wl->resize(500, 200);
         itemw->show();
+         itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
     }
 }
 
@@ -213,6 +216,7 @@ void camera::startcalicamera()
         wl->setText("请先执行检测");
         wl->resize(500, 200);
         itemw->show();
+         itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("提示");
     }
 }
@@ -220,6 +224,7 @@ void camera::startcalicamera()
 void camera::saveresultcamera()
 {
     redsult->show();
+    redsult->move(this->geometry().center().x()-redsult->width()/2,this->geometry().center().y()-redsult->height()/2);
     connect(redsult, &savecamerresult::sendData, this, &camera::receiveresultdata);
 }
 
@@ -261,6 +266,7 @@ void camera::readcamera_xml()
             wl->setText("请打开内参项目文件");
             wl->resize(500, 200);
             itemw->show();
+             itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
             itemw->setWindowTitle("错误");
         }
         else
@@ -291,6 +297,7 @@ void camera::setboardclick()
 {
     camneican->clear();
     board->show();
+    board->move(this->geometry().center().x()-board->width()/2,this->geometry().center().y()-board->height()/2);
     connect(board, &setboard::sendData, this, &camera::receivedata);
 }
 
@@ -315,11 +322,13 @@ void camera::helpclick()
 {
     camera_neican_help *help = new camera_neican_help;
     help->show();
+    help->move(this->geometry().center().x()-help->width()/2,this->geometry().center().y()-help->height()/2);
 }
 
 void camera::newproject()
 {
     newp->show();
+    newp->move(this->geometry().center().x()-newp->width()/2,this->geometry().center().y()-newp->height()/2);
     connect(newp, &newcamerproject::sendData, this, &camera::receiveprojectdata);
 }
 
@@ -360,7 +369,9 @@ void camera::Time_calibrate_update()
         }
     }
     timer_label->adjustSize();
+    timer_widget->setFixedSize(timer_widget->width(), timer_widget->height());
     timer_widget->show();
+    timer_widget->move(this->geometry().center().x()-timer_widget->width()/2,this->geometry().center().y()-timer_widget->height()/2);
     timer_widget->setWindowTitle("标定正在进行，请勿关闭");
     if(camneican->calibrate_flag)
     {
@@ -372,32 +383,35 @@ void camera::Time_calibrate_update()
 
 void camera::Time_find_corner_update()
 {
-this->hide();
-timer_label->setText("检测正在进行，请勿关闭");
-timer_label->setWordWrap(true);
-if(xunhuan)
-     timer_label->setText(timer_label->text()+".");
-else
-    timer_label->setText(timer_label->text()+"...");
-xunhuan=!xunhuan;
-timer_label->setText(timer_label->text()+"\n"+"剩余待检测图片数："+QString::number(camneican->imagePaths.size()-camneican->conerfindseq.size()));
-//for(int i=0;i<camneican->conerfindseq.size();i++)
-//{
-//    if(camneican->conerfindseq[i]==0)
-//    {
-//     timer_label->setText(timer_label->text()+"\n"+QString::fromStdString(camneican->imagePaths[i])+"未找到角点");
-//    }
-//    else
-//    timer_label->setText(timer_label->text()+"\n"+QString::fromStdString(camneican->imagePaths[i])+"找到角点");
-//}
-//timer_label->adjustSize();
-timer_label->resize(500, 200);
-timer_widget->show();
-timer_widget->setWindowTitle("标定正在进行，请勿关闭");
-if(camneican->corner_flag)
-{
-    timer_widget->close();
-    this->show();
-    find_corner_timer->stop();
-}
+    this->hide();
+    timer_label->clear();
+    timer_label->setText("检测正在进行，请勿关闭");
+    timer_label->setWordWrap(true);
+    if(xunhuan)
+         timer_label->setText(timer_label->text()+".");
+    else
+        timer_label->setText(timer_label->text()+"...");
+    xunhuan=!xunhuan;
+    timer_label->setText(timer_label->text()+"\n"+"剩余待检测图片数："+QString::number(camneican->imagePaths.size()-camneican->conerfindseq.size()));
+    //for(int i=0;i<camneican->conerfindseq.size();i++)
+    //{
+    //    if(camneican->conerfindseq[i]==0)
+    //    {
+    //     timer_label->setText(timer_label->text()+"\n"+QString::fromStdString(camneican->imagePaths[i])+"未找到角点");
+    //    }
+    //    else
+    //    timer_label->setText(timer_label->text()+"\n"+QString::fromStdString(camneican->imagePaths[i])+"找到角点");
+    //}
+    //timer_label->adjustSize();
+    timer_label->resize(500, 200);
+    timer_widget->setFixedSize(timer_widget->width(), timer_widget->height());
+    timer_widget->show();
+    timer_widget->move(this->geometry().center().x()-timer_widget->width()/2,this->geometry().center().y()-timer_widget->height()/2);
+    timer_widget->setWindowTitle("检测正在进行，请勿关闭");
+    if(camneican->corner_flag)
+    {
+        timer_widget->close();
+        this->show();
+        find_corner_timer->stop();
+    }
 }

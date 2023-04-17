@@ -4,9 +4,9 @@ external_camera::external_camera(QWidget *parent) : QWidget(parent),
                                                     ui(new Ui::external_camera)
 {
     ui->setupUi(this);
-  //  this->setStyleSheet("background:white;");
+    //  this->setStyleSheet("background:white;");
     setWindowTitle("相机外参标定");
-   // setFixedSize(this->width(), this->height());
+    // setFixedSize(this->width(), this->height());
     //    m_imageBox.Init(ui->verticalLayout_2);
     //    connect(&m_imageBox,&ImageBox::ImageClick,this,&external_camera::ActImageClick);
     //    connect(ui->pushButton_4,&QPushButton::pressed,[this]{
@@ -113,6 +113,7 @@ void external_camera::Calculatepnp()
         wl->setText("没有输入坐标");
         wl->resize(500, 200);
         itemw->show();
+        itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("错误");
     }
     else
@@ -135,6 +136,7 @@ void external_camera::Calculatepnp()
             wl->setText("坐标数小于9");
             wl->resize(500, 200);
             itemw->show();
+            itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
             itemw->setWindowTitle("错误");
         }
         else
@@ -147,6 +149,7 @@ void external_camera::Calculatepnp()
                 wl->setText("没有找到标定结果");
                 wl->resize(500, 200);
                 itemw->show();
+                itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
                 itemw->setWindowTitle("错误");
                 return;
             }
@@ -171,6 +174,7 @@ void external_camera::Calculatepnp()
         wl->setText("没有打开内参标定结果");
         wl->resize(500, 200);
         itemw->show();
+        itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("错误");
     }
 }
@@ -217,6 +221,7 @@ void external_camera::openprojectclick()
             wl->setText("请打开相机项目文件");
             wl->resize(500, 200);
             itemw->show();
+            itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
             itemw->setWindowTitle("错误");
         }
         else
@@ -293,6 +298,7 @@ void external_camera::openresultneican_click()
                 wl->setText("请打开相机内参标定结果文件");
                 wl->resize(500, 200);
                 itemw->show();
+                itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
                 itemw->setWindowTitle("错误");
             }
             else
@@ -367,12 +373,14 @@ void external_camera::external_camera_help_click()
     wl->setText("新建项目-添加图片-添加坐标-打开内参-标定外参");
     wl->resize(1000, 200);
     itemw->show();
+    itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
     itemw->setWindowTitle("帮助");
 }
 
 void external_camera::saveresult_xml_click()
 {
     result_xml->show();
+    result_xml->move(this->geometry().center().x()-result_xml->width()/2,this->geometry().center().y()-result_xml->height()/2);
     connect(result_xml, &savecamerresult::sendData, this, &external_camera::receiveresultdata);
 }
 
@@ -419,6 +427,7 @@ void external_camera::showImg(int item)
 void external_camera::newprojectclick()
 {
     newp->show();
+    newp->move(this->geometry().center().x()-newp->width()/2,this->geometry().center().y()-newp->height()/2);
     connect(newp, &newcamerproject::sendData, this, &external_camera::receiveprojectdata);
 }
 

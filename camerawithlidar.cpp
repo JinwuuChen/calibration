@@ -106,6 +106,7 @@ void camerawithlidar::deletecoordinateclick()
 void camerawithlidar::newprojectclick()
 {
     newp->show();
+    newp->move(this->geometry().center().x()-newp->width()/2,this->geometry().center().y()-newp->height()/2);
     connect(newp, &newcamerproject::sendData, this, &camerawithlidar::receiveprojectdata);
 }
 void camerawithlidar::receiveprojectdata(QString a)
@@ -165,6 +166,7 @@ void camerawithlidar::openprojectclick()
             wl->setText("请打开相机-激光雷达标定项目");
             wl->resize(500, 200);
             itemw->show();
+            itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
             itemw->setWindowTitle("错误");
             return;
         }
@@ -220,6 +222,7 @@ void camerawithlidar::openprojectclick()
                     wl->setText("项目中目录不正确或图片数量不一样");
                     wl->resize(500, 200);
                     itemw->show();
+                    itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
                     itemw->setWindowTitle("错误");
                     return;
                 }
@@ -275,6 +278,7 @@ void camerawithlidar::addimgclick()
         wl->setText("图片目录中的图片文件数和点云目录中的点云文件数不一致");
         wl->resize(500, 200);
         itemw->show();
+        itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("错误");
         return;
     }
@@ -367,6 +371,7 @@ QImage img = QImage(gray.data, gray.cols, gray.rows, gray.cols * gray.channels()
 img = img.scaled(wl->size(), Qt::KeepAspectRatio);
 wl->setPixmap(QPixmap::fromImage(img));
 itemw->show();
+itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
 itemw->setWindowTitle("错误");
 
 }
@@ -479,6 +484,7 @@ void camerawithlidar::calculateclick()
             wl->setText("坐标输入不正确");
             wl->resize(500, 200);
             itemw->show();
+            itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
             itemw->setWindowTitle("错误");
         }
         else
@@ -496,6 +502,7 @@ void camerawithlidar::calculateclick()
                 wl->setText("坐标数小于9");
                 wl->resize(500, 200);
                 itemw->show();
+                itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
                 itemw->setWindowTitle("错误");
             }
             else
@@ -508,6 +515,7 @@ void camerawithlidar::calculateclick()
                     wl->setText("请输入正确坐标");
                     wl->resize(500, 200);
                     itemw->show();
+                    itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
                     itemw->setWindowTitle("错误");
                     return;
                 }
@@ -532,6 +540,7 @@ void camerawithlidar::calculateclick()
         wl->setText("没有打开内参标定结果");
         wl->resize(500, 200);
         itemw->show();
+        itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("错误");
     }
 }
@@ -551,6 +560,7 @@ void camerawithlidar::openxmlclick()
                 wl->setText("请打开相机内参标定结果文件");
                 wl->resize(500, 200);
                 itemw->show();
+                itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
                 itemw->setWindowTitle("错误");
             }
             else
@@ -620,10 +630,12 @@ void camerawithlidar::saveresultxmlclick()
         wl->setText("没有标定结果");
         wl->resize(500, 200);
         itemw->show();
+        itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("保存标定结果错误");
         return;
     }
     result_xml->show();
+    result_xml->move(this->geometry().center().x()-result_xml->width()/2,this->geometry().center().y()-result_xml->height()/2);
     connect(result_xml, &savecamerresult::sendData, this, &camerawithlidar::receiveresultdata);
 }
 void camerawithlidar::receiveresultdata(QString a)
@@ -641,5 +653,6 @@ void camerawithlidar::camerawithlidar_help_click()
     wl->setText("设置图片目录-设置点云目录-更新目录-在图片区域右键点击鼠标可选择像素点-点云区域shift加左键可选点-键盘O切换点云放大模式");
     wl->resize(1000, 200);
     itemw->show();
+    itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
     itemw->setWindowTitle("帮助");
 }

@@ -17,6 +17,7 @@
 #include <QCheckBox>
 #include<QTimer>
 #include<QLabel>
+#include<qdesktopwidget.h>
 namespace Ui
 {
     class camera;

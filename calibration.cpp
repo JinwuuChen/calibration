@@ -31,7 +31,6 @@ using namespace CryptoPP;
 calibration::calibration(QWidget *parent) : QMainWindow(parent),
                                             ui(new Ui::calibration)
 {
-
     ui->setupUi(this);
     read_license();
     setWindowTitle("自动驾驶多传感器快速标定软件");
@@ -39,7 +38,6 @@ calibration::calibration(QWidget *parent) : QMainWindow(parent),
     connect(ui->pushButton_7, &QPushButton::clicked, this, &calibration::changeexternal_camera);
     connect(ui->pushButton_8, &QPushButton::clicked, this, &calibration::changecamerwithlidat);
     connect(ui->pushButton_6, &QPushButton::clicked, this, &calibration::change_lidarwithlidar_clicked);
-    verifer_license();
 }
 
 calibration::~calibration()
@@ -53,6 +51,7 @@ void calibration::changecamera()
     {
     camera *cam = new camera;
     cam->show();
+    cam->move(this->geometry().center().x()-cam->width()/2,this->geometry().center().y()-cam->height()/2);
     this->close();
     }
     else
@@ -62,6 +61,7 @@ void calibration::changecamera()
         wl->setText("license不正确");
         wl->resize(500, 200);
         itemw->show();
+        itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("错误");
      }
 }
@@ -72,6 +72,7 @@ void calibration::changeexternal_camera()
     {
     external_camera *m = new external_camera;
     m->show();
+    m->move(this->geometry().center().x()-m->width()/2,this->geometry().center().y()-m->height()/2);
     this->close();
     }
     else
@@ -81,6 +82,7 @@ void calibration::changeexternal_camera()
         wl->setText("license不正确");
         wl->resize(500, 200);
         itemw->show();
+       itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("错误");
     }
 }
@@ -90,6 +92,7 @@ void calibration::changecamerwithlidat()
     {
     camerawithlidar *k = new camerawithlidar;
     k->show();
+     k->move(this->geometry().center().x()-k->width()/2,this->geometry().center().y()-k->height()/2);
     this->close();
     }
     else
@@ -99,6 +102,7 @@ void calibration::changecamerwithlidat()
         wl->setText("license不正确");
         wl->resize(500, 200);
         itemw->show();
+       itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("错误");
     }
 }
@@ -108,6 +112,7 @@ void calibration::change_lidarwithlidar_clicked()
     {
     lidarwithlidar *l = new lidarwithlidar;
     l->show();
+    l->move(this->geometry().center().x()-l->width()/2,this->geometry().center().y()-l->height()/2);
     this->close();
     }
     else
@@ -117,6 +122,7 @@ void calibration::change_lidarwithlidar_clicked()
         wl->setText("license不正确");
         wl->resize(500, 200);
         itemw->show();
+       itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("错误");
     }
 }
@@ -170,6 +176,7 @@ void calibration::verifer_license()
         }
         wl->resize(500, 200);
         itemw->show();
+        itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("提示");
         return;
     }
@@ -180,6 +187,7 @@ void calibration::verifer_license()
         wl->setText("license与本机mac地址不匹配，无法使用");
         wl->resize(500, 200);
         itemw->show();
+        itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("错误");
         return;
     }
@@ -191,6 +199,7 @@ void calibration::verifer_license()
        wl->setText("license输入错误");
        wl->resize(500, 200);
        itemw->show();
+      itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
        itemw->setWindowTitle("错误");
        return;
     }

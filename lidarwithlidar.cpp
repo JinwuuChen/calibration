@@ -6,12 +6,10 @@ lidarwithlidar::lidarwithlidar(QWidget *parent) : QWidget(parent),
     ui(new Ui::lidarwithlidar)
 {
     ui->setupUi(this);
-    setWindowTitle("激光雷达-激光雷达标定");
-    //setFixedSize(this->width(), this->height());
+    setWindowTitle("激光雷达-激光雷达标定工具");
     lidarthread=new mythread(this);
     connect(this,&lidarwithlidar::send_cloud,lidarthread,&mythread::lidarthread_slot);
     connect(this,&lidarwithlidar::stopflag,lidarthread,&mythread::stop_thread);
-    // lidarthread->start();
     timer=new QTimer(this);
     timer_transform_init=new QTimer(this);
     connect(ui->pushButton,&QPushButton::clicked,this,&lidarwithlidar::new_project_clicked);
@@ -26,6 +24,7 @@ lidarwithlidar::lidarwithlidar(QWidget *parent) : QWidget(parent),
     connect(ui->ListWidget_imgs, &QListWidget::currentRowChanged, this, &lidarwithlidar::onitemclicked);
     connect(ui->pushButton_9,&QPushButton::clicked,this,&lidarwithlidar::stop_calculate_clicked);
     connect(ui->pushButton_10,&QPushButton::clicked,this,&lidarwithlidar::save_result_clicked);
+    connect(ui->pushButton_8,&QPushButton::clicked,this,&lidarwithlidar::help_clicked);
     vtkwidget = new QVTKWidget(this, QFlag(0));
     viewer.reset(new pcl::visualization::PCLVisualizer("viewer", false));
     parent_cloud.reset(new pcl::PointCloud<pcl::PointXYZI>{});
@@ -34,8 +33,6 @@ lidarwithlidar::lidarwithlidar(QWidget *parent) : QWidget(parent),
     output_cloud.reset(new pcl::PointCloud<pcl::PointXYZI>{});
     output_double_cloud.reset(new pcl::PointCloud<pcl::PointXYZI>{});
     viewer->setBackgroundColor(0, 0, 0);
-    viewer->addPointCloud<pcl::PointXYZI>(child_cloud, "sample cloud");
-    viewer->addPointCloud<pcl::PointXYZI>(parent_cloud, "cloud");
     ui->verticalLayout->addWidget(vtkwidget);
     ui->verticalLayout->update();
     vtkwidget->SetRenderWindow(viewer->getRenderWindow());
@@ -74,6 +71,7 @@ lidarwithlidar::~lidarwithlidar()
 void lidarwithlidar::new_project_clicked()
 {
     newprojectwidget->show();
+    newprojectwidget->move(this->geometry().center().x()-newprojectwidget->width()/2,this->geometry().center().y()-newprojectwidget->height()/2);
     connect(newprojectwidget, &newcamerproject::sendData, this, &lidarwithlidar::receiveprojectdata);
 }
 
@@ -105,6 +103,7 @@ void lidarwithlidar::open_project_clicked()
             wl->setText("请打开激光雷达-激光雷达标定项目");
             wl->resize(500, 200);
             itemw->show();
+            itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
             itemw->setWindowTitle("错误");
             return;
         }
@@ -179,6 +178,7 @@ void lidarwithlidar::update_path_clicked()
         wl->setText("子点云目录和父点云目录中点云文件数不一致");
         wl->resize(500, 200);
         itemw->show();
+        itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
         itemw->setWindowTitle("错误");
         return;
     }
@@ -192,6 +192,17 @@ void lidarwithlidar::result_clear()
     rotation_x=0;
     rotation_y=0;
     rotation_z=0;
+}
+
+void lidarwithlidar::help_clicked()
+{
+    QWidget *itemw = new QWidget;
+    QLabel *wl = new QLabel(itemw);
+    wl->setText("新建项目-分别选择文件数相同的子点云和父点云文件夹-更新目录-设置初始变换值和迭代次数-执行");
+    wl->resize(1000, 200);
+    itemw->show();
+    itemw->move(this->geometry().center().x()-itemw->width()/2,this->geometry().center().y()-itemw->height()/2);
+    itemw->setWindowTitle("帮助");
 }
 QStringList lidarwithlidar::getFileNames(const QString &path)
 {
@@ -331,6 +342,7 @@ void lidarwithlidar::add_child_path_clicked()
 void lidarwithlidar::save_result_clicked()
 {
     save_multi_result_xml->show();
+    save_multi_result_xml->move(this->geometry().center().x()-save_multi_result_xml->width()/2,this->geometry().center().y()-save_multi_result_xml->height()/2);
     connect(save_multi_result_xml, &savecamerresult::sendData, this, &lidarwithlidar::receiveresultdata);
 }
 
@@ -448,12 +460,7 @@ void mythread::run()
                 emit threadSignal1(ndt_thread.getFinalNumIteration(),ndt_thread.getFitnessScore(),ndt_thread.getTransformationProbability(),translation_x,translation_y,translation_z,rotation_x,rotation_y,rotation_z);
             }
         }
-//    }
-}
-
-void mythread::mythreadslot()
-{
-
+        //    }
 }
 
 void mythread::lidarthread_slot(pcl::PointCloud<pcl::PointXYZI>::Ptr cloud_child,pcl::PointCloud<pcl::PointXYZI>::Ptr cloud_parent,Eigen::Matrix4f init_guess_,int iter)

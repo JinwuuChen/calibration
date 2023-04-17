@@ -5,7 +5,7 @@
 #include <QFileDialog>
 #include <pcl/visualization/pcl_visualizer.h>
 #include <QVTKWidget.h>
-#include<QThread>
+#include <QThread>
 #include <pcl/common/common_headers.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/visualization/pcl_visualizer.h>
@@ -27,7 +27,10 @@
 #include"savecamerresult.h"
 #include"newcamerproject.h"
 #include"result_verify.h"
-
+#include<qdesktopwidget.h>
+#include<Eigen/StdVector>
+using namespace Eigen;
+EIGEN_DEFINE_STL_VECTOR_SPECIALIZATION(Eigen::Affine3d)//解决vector中Eigen对齐的问题
 namespace Ui
 {
     class lidarwithlidar;
@@ -47,11 +50,11 @@ class mythread : public QThread
     pcl::PointCloud<pcl::PointXYZI>::Ptr out_cloud_thread;
     Eigen::Matrix4f init_guess_thread;
     Eigen::Vector3f t_xyz,r_xyz;
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
     float translation_x=0,translation_y=0,translation_z=0,rotation_x=0,rotation_y=0,rotation_z=0;
 signals:
     void threadSignal1(int,float,float,float,float,float,float,float,float);
 public slots:
-    void mythreadslot();
     void lidarthread_slot(pcl::PointCloud<pcl::PointXYZI>::Ptr,pcl::PointCloud<pcl::PointXYZI>::Ptr,Eigen::Matrix4f,int);
     void stop_thread(int);
 };
@@ -63,6 +66,7 @@ class lidarwithlidar : public QWidget
 public:
     explicit lidarwithlidar(QWidget *parent = 0);
     ~lidarwithlidar();
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
     void new_project_clicked();
     void save_project_clicked();
     void open_project_clicked();
@@ -77,6 +81,7 @@ public:
     QString parent_pcd_path;
     void update_path_clicked();
     void result_clear();
+    void help_clicked();
     pcl::visualization::PCLVisualizer::Ptr viewer;
     pcl::PointCloud<pcl::PointXYZI>::Ptr parent_cloud;
     pcl::PointCloud<pcl::PointXYZI>::Ptr child_cloud;

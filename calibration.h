@@ -21,6 +21,8 @@
 #include <md5.h>
 #include <pssr.h>
 #include "cryptopputil.h"
+#include<qdesktopwidget.h>
+#include <QApplication>
 static bool verifer_success_flag=0;
 namespace Ui
 {
